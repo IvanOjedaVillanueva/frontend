@@ -1,0 +1,65 @@
+<div class="expandUp">
+  <app-navbar></app-navbar>
+  <div class="centered">
+
+    <form (submit)="registro(usuario,contrasenia,repeat,correo)">
+      <div class="row">
+        <div class="form-group">
+          <div class="col-md-8">
+            <label for="usuario">Usuario</label>
+          </div>
+          <div class="col-md-4 ajustado">
+            <input type="text" class="form-control" id="usuaruoInput" placeholder="Enter usuario" #usuario>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group">
+          <div class="col-md-8">
+            <label for="correo">Correo</label>
+          </div>
+          <div class="col-md-4 ajustado">
+            <input type="email" class="form-control" id="correoInput" aria-describedby="AyudaEmail"
+              placeholder="Enter email" #correo>
+            <small id="AyudaEmail" class="form-text text-muted">Esto es un secreto entre tu y yo.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group">
+          <div class="col-md-8">
+            <label for="exampleInputPassword1">Contrasenia</label>
+          </div>
+          <div class="col-md-4 ajustado">
+            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" #contrasenia>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group">
+          <div class="col-md-8">
+            <label for="exampleInputPassword2">Repite la contrasenia</label>
+
+          </div>
+          <div class="col-md-4 ajustado">
+            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" #repeat>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <a routerLink="/">Inicio</a>
+        </div>
+        <div class="col-md-6">
+          <button type="submit" class="btn btn-primary">Enviar</button>
+
+        </div>
+
+      </div>
+    </form>
+  </div>
+</div>

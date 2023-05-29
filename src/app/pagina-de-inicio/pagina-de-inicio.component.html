@@ -1,0 +1,144 @@
+<div *ngIf="estados === estadosActividad.pensando" class="loader"></div>
+<div *ngIf="estados === estadosActividad.activo" class="ventanaCompleta colorFondo d-flex">
+  <!-- <app-navbar></app-navbar> -->
+  <form *ngIf="creandoServidor" (submit)="crearServidor(nombreServidor,usuConectado)" class="flotando">
+    <h3>Nombre del nuevo servidor</h3>
+    <input type="text" #nombreServidor>
+    <button (click)="creandoServidor = false">Cerrar</button>
+    <button type="submit">Enviar</button>
+
+  </form>
+  <div class="d-md-none">
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top ">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarCollapse"
+        aria-controls="sidebarCollapse" aria-expanded="false" aria-label="Toggle Sidebar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </nav>
+
+    <div class="collapse d-md-flex scrollable ventanaCompleta scrollbar-personalizada" id="sidebarCollapse">
+      <div class="bg-dark border-right " id="sidebar">
+        <div class="list-group list-group-flush mt-5 ">
+          <div *ngFor="let canal of canales" class="list-group-item d-flex ocuparTodo">
+            <button class="btn btn-dark ">{{canal.nombre_de_canal}}</button><svg (click)="borraCanal(canal.uuid_canalPrivado,usuConectado)" xmlns="http://www.w3.org/2000/svg" width="16"
+            height="16" fill="currentColor" class="bi bi-trash punteable" viewBox="0 0 16 16">
+            <path
+              d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
+            <path
+              d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
+          </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="enmedio">
+    <div class="flex-column flex-shrink-0 p-3 text-white bg-dark d-none d-md-flex" style="width: 250px;">
+      <!-- Resto del contenido -->
+
+      <div class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+
+        <span class="fs-4 p-3">CANALES</span>
+      </div>
+      <div *ngIf="canales != undefined" class="mb-auto scrollable scrollbar-personalizada">
+        <div *ngFor="let canal of canales" class="d-flex ocuparTodo">
+          <button class="">{{canal.nombre_de_canal}}</button>
+          <svg (click)="borraCanal(canal.uuid_canalPrivado,usuConectado)" xmlns="http://www.w3.org/2000/svg" width="16"
+              height="16" fill="currentColor" class="bi bi-trash punteable" viewBox="0 0 16 16">
+              <path
+                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
+              <path
+                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
+            </svg>
+        </div>
+      </div>
+      <div class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+
+        <span class="fs-4 p-3">SERVIDORES</span>
+      </div>
+      <div *ngIf="servidores != undefined" class="mb-auto scrollable scrollbar-personalizada">
+        <div *ngFor="let server of servidores" class="d-flex ocuparTodo">
+          <button class="">{{server.nombre_de_servidor}}</button>
+            <svg (click)="borraServidor(server.admin,usuConectado,server.uuid_servidor)" xmlns="http://www.w3.org/2000/svg" width="16"
+              height="16" fill="currentColor" class="bi bi-trash punteable" viewBox="0 0 16 16">
+              <path
+                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
+              <path
+                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
+            </svg>
+        </div>
+
+      </div>
+      <div class="dropdown p-3 ocuparTodo">
+        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1"
+          data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="{{usuConectado.foto_perfil}}" alt="" width="32" height="32" class="rounded-circle me-2">
+          <strong>{{usuConectado.nombre_de_usuario}}</strong>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+          <li><a class="dropdown-item" href="#" (click)="creandoServidor=true" data-toggle="modal"
+              data-target="#myModal">Nuevo Servidor</a></li>
+
+
+          <li><a class="dropdown-item" href="#">Unirse a Servidor</a></li>
+          <li><a class="dropdown-item">Perfil de Usuario</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a class="dropdown-item" (click)="logOut()">Cerrar Sesion</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- AKI EL CHATTTTT-->
+
+  <div class="flex-column flex-shrink-0 p-3 text-white bg-dark d-none d-md-flex crecer">
+    <!-- Resto del contenido -->
+
+    <div class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+
+      <span class="fs-4 p-3">CANALES</span>
+    </div>
+    <div class="mb-auto scrollable scrollbar-personalizada">
+      <div *ngFor="let canal of canales" class="d-flex">
+        <button class="ocuparTodo">{{canal.nombre_de_canal}}</button>
+        <svg (click)="borraCanal(canal.nombre_de_canal,usuConectado)" xmlns="http://www.w3.org/2000/svg" width="16"
+              height="20" fill="currentColor" class="bi bi-trash punteable" viewBox="0 0 16 16">
+              <path
+                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
+              <path
+                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
+            </svg>
+      </div>
+    </div>
+  </div>
+  <!--HASTA AKI EL CHATTTTT-->
+  <div class="flex-column flex-shrink-0 p-3 text-white bg-dark d-none d-lg-flex" style="width: 250px;">
+    <!-- Resto del contenido -->
+
+    <div class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+
+      <span class="fs-4 p-3">Usuarios</span>
+    </div>
+    <div class="mb-auto scrollable scrollbar-personalizada">
+      <div *ngFor="let usu of usuarios" class="">
+        <div class="dropdown p-3 ocuparTodo">
+          <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+            id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src={{usu.foto_perfil}} alt="" width="32" height="32" class="rounded-circle me-2">
+            <strong>{{usu.nombre_de_usuario}}</strong>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+            <li><a class="dropdown-item" (click)="crearCanal(usu.nombre_de_usuario,usu.correo_electronico)"
+                href="#">CHARLAR</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="estados === estadosActividad.inactivo" class="centered"><button type="button" routerLink="/login"
+    class="btn btn-primary btn-lg">Inicio de Sesion</button>
+  <button type="button" routerLink="/register" class="btn btn-primary btn-lg">Registrarse</button>
+</div>
