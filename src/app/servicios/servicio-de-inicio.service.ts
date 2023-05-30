@@ -7,6 +7,7 @@ import { datosInicio } from '../modelos/datosInicio';
 import { canalPrivado } from '../modelos/canalPrivado';
 import { usuario } from '../modelos/usuario';
 import { servidor } from '../modelos/servidor';
+import { respuestaCanalPrivado } from '../modelos/respuestaCanalPrivado';
 @Injectable({
   providedIn: 'root'
 })
@@ -29,14 +30,14 @@ export class ServicioDeInicioService {
   mostrarServidores(): Observable<servidor[]> {
     return this.http.get<servidor[]>(`${this.api_url}/usuario/yo/servidores`);
   }
-  mostrarUsuarios(): Observable<{msg:[usuario]}> {
+  mostrarUsuarios(): Observable<usuario[]> {
 
-    return this.http.get<{msg:[usuario]}>(`${this.api_url}/usuario/`);
+    return this.http.get<usuario[]>(`${this.api_url}/usuario/`);
   }
   getUsuarioConectado(): Observable<usuario> {
     return this.http.get<usuario>(`${this.api_url}/usuario/yo/info`);
   }
-  crearCanales(datos:canalPrivado):Observable<{msg:string}>{
+  crearCanales(datos:respuestaCanalPrivado):Observable<{msg:string}>{
     return this.http.post<{msg:string}>(`${this.api_url}/usuario/canalPrivado`,datos);
   }
   crearServidor(datos:servidor):Observable<{msg:string}>{

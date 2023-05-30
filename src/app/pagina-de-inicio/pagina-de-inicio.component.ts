@@ -7,6 +7,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { usuario } from '../modelos/usuario';
 import { servidor } from '../modelos/servidor';
+import { respuestaCanalPrivado } from '../modelos/respuestaCanalPrivado';
 
 @Component({
   selector: 'app-pagina-de-inicio',
@@ -16,7 +17,7 @@ import { servidor } from '../modelos/servidor';
 export class PaginaDeInicioComponent {
   public estados: estadosActividad;
   public canales: [canalPrivado] | undefined;
-  public usuarios: [usuario] | undefined;
+  public usuarios: usuario[] | undefined;
   public servidores: servidor[] | undefined;
   public usuConectado!: usuario;
   public creandoServidor:boolean=false;
@@ -64,7 +65,7 @@ export class PaginaDeInicioComponent {
   }
   mostrarUsuarios(){
     this.ServicioDeInicio.mostrarUsuarios().subscribe(
-      res => { this.usuarios = res.msg },
+      res => { this.usuarios = res},
       err => { this.estados = estadosActividad.inactivo }
     );
   }
@@ -72,17 +73,19 @@ export class PaginaDeInicioComponent {
     this.cookieService.delete('token');
     this.router.navigateByUrl('/login');
   }
-  private datosCanal: canalPrivado = {
+  private datosCanal: respuestaCanalPrivado = {
     nombre_de_canal: "",
-    usuarios: []
+    uuid_usuario:""
   }
-  crearCanal(usuario: string, correo: string) {
+  crearCanal(usuario: string,uuid_usuario?:string) {
     this.datosCanal.nombre_de_canal = usuario;
+    this.datosCanal.uuid_usuario = uuid_usuario;
+    //TENGO Q PONER UN DIALOGO CON LA PREGUNTA DEL NOMBRE, MAS FACIL ASI
     this.ServicioDeInicio.crearCanales(this.datosCanal).subscribe(
       res => {
         if (res.msg == "Canal creado") {
           console.log("Se ha creado el canal");
-          this.router.navigate(['/']);// IMPORTANTE CUANDO TENGA UNA PAGINA QUE YA TENGA USUARIO LGUEADO
+          this.router.navigate(['/']);
           this.actualizarEstado();
         } else {
           console.log("SOMO UNO TRISTE DE CANAL");
