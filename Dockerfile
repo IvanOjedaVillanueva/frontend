@@ -3,7 +3,7 @@ FROM node:18.16.0-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci
-COPY ..
+COPY . .
 
 RUN npm run build --omit=dev
 
