@@ -8,7 +8,14 @@
     <button type="submit">Enviar</button>
 
   </form>
-  <div class="d-md-none">
+  <form *ngIf="uniendoServidor" (submit)="entrarServidor(nombreServidor,usuConectado)" class="flotando">
+    <h3>Nombre del servidor al que quiere unirse</h3>
+    <input type="text" #nombreServidor>
+    <button (click)="uniendoServidor = false">Cerrar</button>
+    <button type="submit">Enviar</button>
+
+  </form>
+  <div class="d-md-none bg-dark">
 
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top ">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarCollapse"
@@ -21,7 +28,7 @@
       <div class="bg-dark border-right " id="sidebar">
         <div class="list-group list-group-flush mt-5 ">
           <div *ngFor="let canal of canales" class="list-group-item d-flex ocuparTodo">
-            <button class="btn btn-dark ">{{canal.nombre_de_canal}}</button><svg (click)="borraCanal(canal.uuid_canalPrivado,usuConectado)" xmlns="http://www.w3.org/2000/svg" width="16"
+            <button (click)="mostrarCanal(canal.uuid_canalPrivado)" class="btn btn-dark ">{{canal.nombre_de_canal}}</button><svg (click)="borraCanal(canal.uuid_canalPrivado,usuConectado)" xmlns="http://www.w3.org/2000/svg" width="16"
             height="16" fill="currentColor" class="bi bi-trash punteable" viewBox="0 0 16 16">
             <path
               d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
@@ -31,8 +38,13 @@
           </div>
         </div>
       </div>
+      
     </div>
+    
   </div>
+  <!-- <div class="mb-auto scrollable scrollbar-personalizada d-md-none bg-dark ventanaCompleta pt-5 ajustarAncho">
+    <app-chat-unoa-uno [childMessage]="canalActual"></app-chat-unoa-uno>
+  </div> -->
   <div class="enmedio">
     <div class="flex-column flex-shrink-0 p-3 text-white bg-dark d-none d-md-flex" style="width: 250px;">
       <!-- Resto del contenido -->
@@ -43,7 +55,7 @@
       </div>
       <div *ngIf="canales != undefined" class="mb-auto scrollable scrollbar-personalizada">
         <div *ngFor="let canal of canales" class="d-flex ocuparTodo">
-          <button class="">{{canal.nombre_de_canal}}</button>
+          <button (click)="mostrarCanal(canal.uuid_canalPrivado)" class="">{{canal.nombre_de_canal}}</button>
           <svg (click)="borraCanal(canal.uuid_canalPrivado,usuConectado)" xmlns="http://www.w3.org/2000/svg" width="16"
               height="16" fill="currentColor" class="bi bi-trash punteable" viewBox="0 0 16 16">
               <path
@@ -81,7 +93,7 @@
               data-target="#myModal">Nuevo Servidor</a></li>
 
 
-          <li><a class="dropdown-item" href="#">Unirse a Servidor</a></li>
+          <li><a class="dropdown-item" (click)="uniendoServidor=true" href="#">Unirse a Servidor</a></li>
           <li><a class="dropdown-item">Perfil de Usuario</a></li>
           <li>
             <hr class="dropdown-divider">
@@ -93,24 +105,16 @@
   </div>
   <!-- AKI EL CHATTTTT-->
 
-  <div class="flex-column flex-shrink-0 p-3 text-white bg-dark d-none d-md-flex crecer">
+  <div class="flex-column flex-shrink-0 p-3 text-white bg-dark d-md-flex crecer">
     <!-- Resto del contenido -->
 
     <div class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
 
-      <span class="fs-4 p-3">CANALES</span>
+      <span class="fs-4 p-3">MENSAJES</span>
     </div>
-    <div class="mb-auto scrollable scrollbar-personalizada">
-      <div *ngFor="let canal of canales" class="d-flex">
-        <button class="ocuparTodo">{{canal.nombre_de_canal}}</button>
-        <svg (click)="borraCanal(canal.nombre_de_canal,usuConectado)" xmlns="http://www.w3.org/2000/svg" width="16"
-              height="20" fill="currentColor" class="bi bi-trash punteable" viewBox="0 0 16 16">
-              <path
-                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
-              <path
-                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
-            </svg>
-      </div>
+    
+    <div class="scrollable scrollbar-personalizada pb-5">
+      <app-chat-unoa-uno [childMessage]="canalActual"></app-chat-unoa-uno><!--AQUI VA EL CHAT-->
     </div>
   </div>
   <!--HASTA AKI EL CHATTTTT-->

@@ -8,6 +8,7 @@ import { canalPrivado } from '../modelos/canalPrivado';
 import { usuario } from '../modelos/usuario';
 import { servidor } from '../modelos/servidor';
 import { respuestaCanalPrivado } from '../modelos/respuestaCanalPrivado';
+import { respuestaEntrarServer } from '../modelos/respuestaEntrarServer';
 @Injectable({
   providedIn: 'root'
 })
@@ -48,5 +49,11 @@ export class ServicioDeInicioService {
   }
   borrarCanal(uuid_canal?:string):Observable<{msg:string}>{
     return this.http.delete<{msg:string}>(`${this.api_url}/usuario/yo/borrarCanal/${uuid_canal}`);
+  }
+  mostrarCanal(uuid_canal:string|undefined):Observable<canalPrivado>{
+    return this.http.get<canalPrivado>(`${this.api_url}/usuario/yo/canal/${uuid_canal}`);
+  }
+  entrarServidor(datos:respuestaEntrarServer):Observable<{msg:string}>{
+    return this.http.put<{msg:string}>(`${this.api_url}/usuario`,datos);
   }
 }

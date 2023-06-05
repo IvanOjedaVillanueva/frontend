@@ -13,6 +13,7 @@ import { PaginaDeRegistroComponent } from './pagina-de-registro/pagina-de-regist
 import { NavbarComponent } from './navegacion/navbar/navbar.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ChatUnoaUnoComponent } from './chat-unoa-uno/chat-unoa-uno.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     PaginaDeLoginComponent,
     PaginaDeRegistroComponent,
     NavbarComponent,
+    ChatUnoaUnoComponent,
   ],
   imports: [
     BrowserModule,

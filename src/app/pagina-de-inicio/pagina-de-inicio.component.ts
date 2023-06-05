@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { estadosActividad } from '../modelos/estadosActividad';
 import { ServicioDeInicioService } from '../servicios/servicio-de-inicio.service';
 import { respuestaLogin } from '../modelos/respuestaLogin';
@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { usuario } from '../modelos/usuario';
 import { servidor } from '../modelos/servidor';
 import { respuestaCanalPrivado } from '../modelos/respuestaCanalPrivado';
+import { respuestaEntrarServer } from '../modelos/respuestaEntrarServer';
 
 @Component({
   selector: 'app-pagina-de-inicio',
@@ -21,12 +22,20 @@ export class PaginaDeInicioComponent {
   public servidores: servidor[] | undefined;
   public usuConectado!: usuario;
   public creandoServidor:boolean=false;
+  public uniendoServidor:boolean=false;
+
   estadosActividad = estadosActividad;
   private respuestaLogin: respuestaLogin | null = null;
+  public canalActual!: canalPrivado;
+  @Output() messageEvent = new EventEmitter<string>();
+
 
   constructor(private ServicioDeInicio: ServicioDeInicioService, private cookieService: CookieService,private router:Router) {
     this.estados = estadosActividad.pensando;
     this.actualizarEstado();
+  }
+  sendMessage(uuid_canal?:string) {
+    this.messageEvent.emit(uuid_canal);
   }
   actualizarEstado() {
     if(this.cookieService.check('token')){
@@ -84,7 +93,10 @@ export class PaginaDeInicioComponent {
     this.ServicioDeInicio.crearCanales(this.datosCanal).subscribe(
       res => {
         if (res.msg == "Canal creado") {
-          console.log("Se ha creado el canal");
+          this.router.navigate(['/']);
+          this.actualizarEstado();
+        }else if(res.msg == "CANAL YA EXISTENTE"){
+          alert("YA TIENE UN CHAT CON ESTE USUARIO")
           this.router.navigate(['/']);
           this.actualizarEstado();
         } else {
@@ -103,14 +115,12 @@ export class PaginaDeInicioComponent {
     admin: undefined,
   }
   crearServidor(nombre_server:HTMLInputElement,usuario_creador:usuario){
-    console.log("LLEGAMOS")
     this.datosServer.nombre_de_servidor = nombre_server.value;
     this.datosServer.admin = usuario_creador;
     this.datosServer.usuarios.push(usuario_creador);
     this.ServicioDeInicio.crearServidor(this.datosServer).subscribe(
       res => {
         if (res.msg == "Servidor creado") {
-          console.log("Se ha creado el servidor");
           this.router.navigate(['/']);// IMPORTANTE CUANDO TENGA UNA PAGINA QUE YA TENGA USUARIO LGUEADO
           this.creandoServidor = false;
           this.actualizarEstado();
@@ -149,7 +159,7 @@ export class PaginaDeInicioComponent {
         res => {
           if (res.msg == "Se ha borrado el canal") {
             alert("Se ha borrado el canal");
-            this.router.navigate(['/']);// IMPORTANTE CUANDO TENGA UNA PAGINA QUE YA TENGA USUARIO LGUEADO
+            this.router.navigate(['/']);
             this.actualizarEstado();
           } else {
             console.log("SOMO UNO TRISTE DE canal");
@@ -163,5 +173,49 @@ export class PaginaDeInicioComponent {
     
     this.actualizarEstado();
 
-  }//IMPORTANTE DALTA AÑADIRLE A CANAL EL ARRAY DE USUARIOS QUE ACCEDEN A ESTE
+  }
+  mostrarCanal(uuid_canal?:string){
+
+    this.ServicioDeInicio.mostrarCanal(uuid_canal).subscribe(
+      res => {
+        console.log(res.uuid_canalPrivado);
+        if (res!=null) {
+          this.canalActual = res;
+          console.log(this.canalActual.uuid_canalPrivado);
+          this.router.navigate(['/']);
+          this.actualizarEstado();
+        } else {
+          console.log("HEMOS TENIDO PROBLEMA CON EL MOSTRADO DEL CANAL");
+        }
+      },
+      err => {
+        console.log("HEMOS TENIDO PROBLEMA CON EL MOSTRADO DEL CANAL");
+      })
+    }
+    entrarServidor(nombre_de_servidor:HTMLInputElement,usuario_creador:usuario){
+      //crearServidor(nombre_server:HTMLInputElement,usuario_creador:usuario)
+        this.datosServer.usuarios.push(usuario_creador);
+        //BUSCAR EL SERVIDOR
+      const datos:respuestaEntrarServer = {
+        nombre_de_server: nombre_de_servidor.value
+
+      }
+        this.ServicioDeInicio.entrarServidor(datos).subscribe(
+          res => {
+            if (res.msg == "Se entro en el servidor") {
+              this.router.navigate(['/']);// IMPORTANTE CUANDO TENGA UNA PAGINA QUE YA TENGA USUARIO LGUEADO
+              this.creandoServidor = false;
+              this.actualizarEstado();
+    
+            } else {
+              console.log("SOMO UNO TRISTE DE servidor");
+            }
+          },
+          err => {
+            console.log("SOMO UNO TRISTE DE servidor");
+          }
+        )
+      
+    }
+    
 }
