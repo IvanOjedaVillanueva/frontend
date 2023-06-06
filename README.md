@@ -1,27 +1,39 @@
-# FrontEnd
+# FrontEnd TFG
+ FrontEnd del proyecto de final de grado de Iván Ojeda Villanueva
+## Funciones
+ Esto consume de la APIREST para mostrar los datos que nos proporcionan los endpoints creados en esta
+ 
+## Tecnologías utilizadas
+ - Angular Como base del proyecto
+ - Bootstrap Para algunos estilos
+ - CSS Para estilos más personalizados
+ - WebSocket para las conversaciones
+ 
+## Docker
+Todo el proyecto esta alojado en una máquina de docker la cuál iniciamos de la siguiente manera
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.2.
+```
+docker run -d \
+  --name nombre-del-contenedor \
+  -p 80:80 \
+  eunpiko/eunpiko/proyecto-tfg-web:latest
+```
+Las variables utilizadas son las siguientes, puede cambiarlas a su gusto con -e NOMBRE_VARIABLE=VALOR
 
-## Development server
+-  JWTKEY key                  (Clave segura encriptada de usuario)
+-  KEYSSN a                    (Clave segura de express)
+-  PORT 3000                   (Puerto de express)
+-  DBHOST localhost            (Nombre del Host de la Base de datos)
+-  DBPORT 27017                (Puerto de la base de datos)
+-  DBUSER root                 (Usuario de la base de datos)
+-  DBPASSWORD root             (Contraseña de la base de datos)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### También podemos iniciarlo con el docker-compose
+```
+version: '3'
+services:
+ tfgWEB:
+    image: eunpiko/proyecto-tfg-web:latest
+    ports:
+      - 80:80
+```
