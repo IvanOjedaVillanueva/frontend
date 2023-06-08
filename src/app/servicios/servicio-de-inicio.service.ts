@@ -56,4 +56,8 @@ export class ServicioDeInicioService {
   entrarServidor(datos:respuestaEntrarServer):Observable<{msg:string}>{
     return this.http.put<{msg:string}>(`${this.api_url}/usuario`,datos);
   }
+  mostrarServidor(uuid_servidor:string|undefined):Observable<servidor>{
+    return this.http.get<servidor>(`${this.api_url}/usuario/yo/servidor/${uuid_servidor}`); //HAY Q CREARLO
+
+  }
 }

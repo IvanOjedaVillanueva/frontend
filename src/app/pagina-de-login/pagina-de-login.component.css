@@ -1,0 +1,15 @@
+.centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 80%;
+}
+.expandUp{
+    height: 100vh;
+    background-color: skyblue;
+
+}
+.ajustado{
+    width: 100%;
+}

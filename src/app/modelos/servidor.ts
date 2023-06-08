@@ -1,3 +1,4 @@
+import { Mensaje } from "./mensaje";
 import { usuario } from "./usuario";
 
 export interface servidor {
@@ -5,4 +6,5 @@ export interface servidor {
     nombre_de_servidor: string;
     usuarios:usuario[];
     admin?:usuario;
+    mensajes:Mensaje[];
 }

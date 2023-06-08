@@ -23,11 +23,14 @@ export class PaginaDeInicioComponent {
   public usuConectado!: usuario;
   public creandoServidor:boolean=false;
   public uniendoServidor:boolean=false;
-
+  public alternar:boolean =false;
   estadosActividad = estadosActividad;
   private respuestaLogin: respuestaLogin | null = null;
   public canalActual!: canalPrivado;
+  public serverActual!: servidor;
+
   @Output() messageEvent = new EventEmitter<string>();
+
 
 
   constructor(private ServicioDeInicio: ServicioDeInicioService, private cookieService: CookieService,private router:Router) {
@@ -39,7 +42,6 @@ export class PaginaDeInicioComponent {
   }
   actualizarEstado() {
     if(this.cookieService.check('token')){
-      console.log(this.estados)
 
         this.estados = estadosActividad.activo;
         this.mostrarCanalesPrivados();
@@ -81,6 +83,7 @@ export class PaginaDeInicioComponent {
   logOut() {
     this.cookieService.delete('token');
     this.router.navigateByUrl('/login');
+    this.usuConectado={uuid_usuario:"",nombre_de_usuario:""};
   }
   private datosCanal: respuestaCanalPrivado = {
     nombre_de_canal: "",
@@ -113,6 +116,7 @@ export class PaginaDeInicioComponent {
     nombre_de_servidor: "",
     usuarios: [],
     admin: undefined,
+    mensajes:[]
   }
   crearServidor(nombre_server:HTMLInputElement,usuario_creador:usuario){
     this.datosServer.nombre_de_servidor = nombre_server.value;
@@ -175,13 +179,11 @@ export class PaginaDeInicioComponent {
 
   }
   mostrarCanal(uuid_canal?:string){
-
+    this.alternar = true;
     this.ServicioDeInicio.mostrarCanal(uuid_canal).subscribe(
       res => {
-        console.log(res.uuid_canalPrivado);
         if (res!=null) {
           this.canalActual = res;
-          console.log(this.canalActual.uuid_canalPrivado);
           this.router.navigate(['/']);
           this.actualizarEstado();
         } else {
@@ -192,6 +194,22 @@ export class PaginaDeInicioComponent {
         console.log("HEMOS TENIDO PROBLEMA CON EL MOSTRADO DEL CANAL");
       })
     }
+    mostrarServidor(uuid_servidor?:string){
+      this.alternar=false;
+      this.ServicioDeInicio.mostrarServidor(uuid_servidor).subscribe(
+        res => {
+          if (res!=null) {
+            this.serverActual = res;
+            this.router.navigate(['/']);
+            this.actualizarEstado();
+          } else {
+            console.log("HEMOS TENIDO PROBLEMA CON EL MOSTRADO DEL CANALDELSERVIDOR");
+          }
+        },
+        err => {
+          console.log("HEMOS TENIDO PROBLEMA CON EL MOSTRADO DEL CANALDELSERVIDOR");
+        })
+      }
     entrarServidor(nombre_de_servidor:HTMLInputElement,usuario_creador:usuario){
       //crearServidor(nombre_server:HTMLInputElement,usuario_creador:usuario)
         this.datosServer.usuarios.push(usuario_creador);

@@ -22,6 +22,10 @@
         aria-controls="sidebarCollapse" aria-expanded="false" aria-label="Toggle Sidebar">
         <span class="navbar-toggler-icon"></span>
       </button>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarCollapse2"
+        aria-controls="sidebarCollapse2" aria-expanded="false" aria-label="Toggle Sidebar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
     </nav>
 
     <div class="collapse d-md-flex scrollable ventanaCompleta scrollbar-personalizada" id="sidebarCollapse">
@@ -40,6 +44,45 @@
       </div>
       
     </div>
+    <div class="collapse d-lg-flex scrollable ventanaCompleta scrollbar-personalizada" id="sidebarCollapse2">
+      <div class="bg-dark border-right " id="sidebar2">
+        <div class="list-group list-group-flush mt-5 ">
+          <div *ngFor="let usu of usuarios" class="">
+            <div class="dropdown p-3 ocuparTodo">
+              <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src={{usu.foto_perfil}} alt="" width="32" height="32" class="rounded-circle me-2">
+                <strong>{{usu.nombre_de_usuario}}</strong>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                <li><a class="dropdown-item" (click)="crearCanal(usu.nombre_de_usuario+usuConectado.nombre_de_usuario,usu.uuid_usuario)"
+                    href="#">CHARLAR</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dropdown p-3 ocuparTodo">
+        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1"
+          data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="{{usuConectado.foto_perfil}}" alt="" width="32" height="32" class="rounded-circle me-2">
+          <strong>OPCIONES</strong>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+          <li><a class="dropdown-item" href="#" (click)="creandoServidor=true" data-toggle="modal"
+              data-target="#myModal">Nuevo Servidor</a></li>
+
+
+          <li><a class="dropdown-item" (click)="uniendoServidor=true" href="#">Unirse a Servidor</a></li>
+          <li><a class="dropdown-item">Perfil de Usuario</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a class="dropdown-item" (click)="logOut()">Cerrar Sesion</a></li>
+        </ul>
+      </div>
+    </div>
+
     
   </div>
   <!-- <div class="mb-auto scrollable scrollbar-personalizada d-md-none bg-dark ventanaCompleta pt-5 ajustarAncho">
@@ -71,7 +114,7 @@
       </div>
       <div *ngIf="servidores != undefined" class="mb-auto scrollable scrollbar-personalizada">
         <div *ngFor="let server of servidores" class="d-flex ocuparTodo">
-          <button class="">{{server.nombre_de_servidor}}</button>
+          <button (click)="mostrarServidor(server.uuid_servidor)" class="">{{server.nombre_de_servidor}}</button>
             <svg (click)="borraServidor(server.admin,usuConectado,server.uuid_servidor)" xmlns="http://www.w3.org/2000/svg" width="16"
               height="16" fill="currentColor" class="bi bi-trash punteable" viewBox="0 0 16 16">
               <path
@@ -114,7 +157,7 @@
     </div>
     
     <div class="scrollable scrollbar-personalizada pb-5">
-      <app-chat-unoa-uno [childMessage]="canalActual"></app-chat-unoa-uno><!--AQUI VA EL CHAT-->
+      <app-chat-unoa-uno [childMessage]="canalActual" [childMessageServer]="serverActual" [alternar]="alternar"></app-chat-unoa-uno><!--AQUI VA EL CHAT-->
     </div>
   </div>
   <!--HASTA AKI EL CHATTTTT-->
