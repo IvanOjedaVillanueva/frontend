@@ -34,7 +34,7 @@ export class ChatUnoaUnoComponent {
         err => { console.log("emo morios") }
       );
     } else {
-
+      this.usuConectado = {nombre_de_usuario:"",uuid_usuario:""}
     }
 
   }
@@ -53,7 +53,6 @@ export class ChatUnoaUnoComponent {
     
   }
   configurarListener(){
-    this.getUsuarioConectado()
 
     this.servicioDeChatUnoAUnoService.on('enviarMensaje', async (data: any) => {
       const dataJSON = JSON.parse(data);

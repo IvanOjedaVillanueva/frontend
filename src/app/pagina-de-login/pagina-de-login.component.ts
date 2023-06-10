@@ -29,6 +29,7 @@ export class PaginaDeLoginComponent {
           this.router.navigate(['/']);// IMPORTANTE CUANDO TENGA UNA PAGINA QUE YA TENGA USUARIO LGUEADO
           this.validado = true;
         } else {
+          alert("Usuario o contraseña incorrectos")
           console.log("SOMO UNO TRISTE");
         }
       },
